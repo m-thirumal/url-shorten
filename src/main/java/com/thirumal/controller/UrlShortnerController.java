@@ -3,9 +3,6 @@
  */
 package com.thirumal.controller;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +47,7 @@ public class UrlShortnerController {
 	}
 	
 	@GetMapping(value = "/{id}")
-    public RedirectView redirectUrl(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) throws IOException, URISyntaxException, Exception {
+    public RedirectView redirectUrl(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("Received shortened url to redirect: {}", id);       
         return urlShortnerService.getRedirectUrl(id);
     }

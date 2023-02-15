@@ -31,7 +31,7 @@ public class UrlShortnerService {
 	private ShortenUrlRepository shortenUrlRepository;
 	
 	/**
-	 * 
+	 * Convert long URL to short URL and store the information in the database
 	 * @param shortenUrl
 	 * @return
 	 */
@@ -43,16 +43,14 @@ public class UrlShortnerService {
 			e.printStackTrace();
 			throw new BadRequestException("URL is not valid");
 		}
-		shortenUrl.setShortUrl("1"); //Hard code value
+		shortenUrl.setShortUrl(shortenUrl.getShortUrlHostAndProtocol()); 
 		shortenUrl = shortenUrlRepository.save(shortenUrl).block();
 		if (shortenUrl == null) {
 			logger.error("Not able to insert to database {}", shortenUrl);
 			throw new DatabaseException("Not able to save the URL to database");
 		}
-		String baseUrl = getBaseUrl(shortenUrl.getOriginalUrl());
-		logger.debug("The base url is {}", baseUrl);
 		int pk = shortenUrl.getShortenUrlId().intValue();
-		String shortUrl = baseUrl + "/" + idToShortURL(pk);
+		String shortUrl = shortenUrl.getShortUrl() + "/" + idToShortURL(pk);
 		shortenUrl.setShortUrl(shortUrl);
 		shortenUrl = shortenUrlRepository.save(shortenUrl).block();
 		logger.debug("The shorent URL is {}", shortenUrl);
@@ -81,7 +79,7 @@ public class UrlShortnerService {
 	/**
 	 * Function to generate a short URL from integer ID
 	 * @param interger id / primary key
-	 * @return short url
+	 * @return short URL
 	 */ 
     private String idToShortURL(int n) { 
         // Map to store 62 possible characters 
@@ -99,7 +97,11 @@ public class UrlShortnerService {
     } 
     
     
-    // Function to get integer ID back from a short url 
+    /**
+     * Function to get integer ID back from a short URL
+     * @param shortURL
+     * @return primaryKey
+     */ 
     private int shortURLtoId(String shortURL) { 
         int id = 0; // initialize result       
         // A simple base conversion logic 
@@ -116,17 +118,14 @@ public class UrlShortnerService {
         } 
         return id; 
     }
-    
-    private String getBaseUrl(String originalUrl) {
-    	try {
-			String path = new URL(originalUrl).getPath();
-			return originalUrl.replace(path, "");
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			throw new BadRequestException("Invalid URL");
-		}
-    }
-    
+
+    /**
+     * Validate the given URL is valid or not
+     * @param url
+     * @return true, if the URL is valid
+     * @throws MalformedURLException
+     * @throws URISyntaxException
+     */
     boolean isValidURL(String url) throws MalformedURLException, URISyntaxException {
         try {
             new URL(url).toURI();
