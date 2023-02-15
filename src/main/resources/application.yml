@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: url-shorten
+  profiles: 
+    active: DEV
+  main:
+    banner-mode: console
+    allow-bean-definition-overriding: true
+  lifecycle:
+    timeout-per-shutdown-phase: 60s
+  servlet:
+    multipart:
+      max-file-size: 100MB
+server:
+  http2:
+    enabled: true
+#  port: 9034
+  shutdown: graceful
+logging:
+  level:
+    '[com.thirumal]': debug
+#    '[org.apache.tinkerpop.gremlin]': debug 
+  file:
+    path: logs
+    name: logs/url-shorten.log
+  logback: 
+    rollingpolicy: 
+      max-history: 10
+      max-file-size: 100MB
+      total-size-cap: 1GB
+#Actuator
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints: 
+    web: 
+      exposure: 
+        include: '*'
+  health: 
+    mail:
+      enabled: false
+  info:
+    git:
+      mode: "full"

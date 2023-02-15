@@ -1,0 +1,12 @@
+server:
+  port: 9054
+spring:  
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/shorten_url 
+    username: thirumal
+    password: Thirumal
+    pool:
+      enabled: true
+      initial-size: 1
+      max-size: 20
+      max-idle-time: 30m
