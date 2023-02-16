@@ -40,7 +40,7 @@ public class ShortenUrl implements Serializable {
 	private String shortUrlHostAndProtocol;
 	@Column("short_url")
 	private String shortUrl;
-	@Column("row_created_on")
+	@Column("row_created_on")@Transient
 	private LocalDateTime rowCreatedOn;
 	@Column("expire_on")
 	private LocalDateTime expireOn;
