@@ -10,6 +10,7 @@ import java.net.URL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -73,6 +74,18 @@ public class UrlShortnerService {
 		} else {
 			redirectView.setUrl(shortenUrl.getOriginalUrl());
 		}
+		return redirectView;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public RedirectView getRedirectUrl(HttpHeaders request) {
+		logger.debug("Request {}", request);
+		RedirectView redirectView = new RedirectView();
+		redirectView.setUrl("https://www.google.com");
 		return redirectView;
 	}
 	
