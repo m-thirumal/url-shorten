@@ -10,3 +10,5 @@ spring:
       initial-size: 1
       max-size: 20
       max-idle-time: 30m
+redirect:
+  default-url: https://www.google.com
