@@ -10,6 +10,8 @@ import java.net.URL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -26,6 +28,9 @@ import com.thirumal.repository.ShortenUrlRepository;
 public class UrlShortnerService {
 
 	Logger logger = LoggerFactory.getLogger(UrlShortnerService.class);
+	
+	@Value("${redirect.default-url}")
+	String defaultRedirectUrl;
 	
 	@Autowired
 	private ShortenUrlRepository shortenUrlRepository;
@@ -69,10 +74,22 @@ public class UrlShortnerService {
 		ShortenUrl shortenUrl = shortenUrlRepository.findById(Long.valueOf(primaryKey)).block();
 		RedirectView redirectView = new RedirectView();
 		if (shortenUrl == null) {
-			redirectView.setUrl("https://www.google.com");
+			redirectView.setUrl(defaultRedirectUrl);
 		} else {
 			redirectView.setUrl(shortenUrl.getOriginalUrl());
 		}
+		return redirectView;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public RedirectView getRedirectUrl(HttpHeaders request) {
+		logger.debug("Request {}", request);
+		RedirectView redirectView = new RedirectView();
+		redirectView.setUrl(defaultRedirectUrl);
 		return redirectView;
 	}
 	

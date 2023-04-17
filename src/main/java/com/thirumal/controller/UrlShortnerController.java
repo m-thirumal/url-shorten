@@ -6,6 +6,7 @@ package com.thirumal.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -45,6 +46,12 @@ public class UrlShortnerController {
 		logger.debug("Creating the short URL for {}", shortenUrl);
 		return urlShortnerService.createShortUrl(shortenUrl);
 	}
+	
+	@GetMapping(value = "/")
+    public RedirectView defaultRedirectUrl(@RequestHeader HttpHeaders headers) {
+		logger.debug("Redirecting Empty URL {}", headers);       
+        return urlShortnerService.getRedirectUrl(headers);
+    }
 	
 	@GetMapping(value = "/{id}")
     public RedirectView redirectUrl(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
