@@ -13,7 +13,7 @@ Shorten the long URL for SMS.
 
 ## Requirements:
 
-* Database - PostgreSQL preferable. [DDL](url_shorten.sql)
+* Database - PostgreSQL preferable. [DDL](./docs/url_shorten.sql)
 * JRE 17 or above
 * Host the application where the short URL domain is directs (OR) `Nginx` for reverse proxy
 
@@ -24,14 +24,6 @@ Shorten the long URL for SMS.
 1. Insert's the original URL to the database and gets the primary key
 2. Generate short path/URL using primary key 
 3. Store the short URL to database and return
-
-## Redirect to Original URL Flow
-
-* Make sure the application is running on the short URL domain & nginx/any other proxy redirect to this application
-* Short to primary key 
-* Get original URL from the database
-* Redirects to the original URL with HTTP status code 302
-
 
 Input
 
@@ -58,3 +50,24 @@ output:
     "expireOn": "2023-02-15T15:44:45.32"
 }
 ```
+
+## Redirect to Original URL Flow
+
+* Make sure the application is running on the short URL domain & nginx/any other proxy redirect to this application
+* Short to primary key 
+* Get original URL from the database
+* Redirects to the original URL with HTTP status code 302
+
+Input:
+
+```curl
+curl --location 'http://localhost:9054/d' \
+--data ''
+```
+
+Output:
+
+```
+---Redirect to PAGE
+```
+
