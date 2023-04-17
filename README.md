@@ -2,6 +2,8 @@
 
 Shorten the long URL for SMS.
 
+![Shorten URL Architecture Flow](./docs/Shorten%20URL.png)
+
 ## Features
 
 * Create Short URL for SMS
