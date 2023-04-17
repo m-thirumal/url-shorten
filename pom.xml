@@ -55,6 +55,13 @@
 			<artifactId>r2dbc-postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- Required for JSON -->
+		<dependency>
+		    <groupId>io.r2dbc</groupId>
+		    <artifactId>r2dbc-postgresql</artifactId>
+		    <version>0.8.13.RELEASE</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

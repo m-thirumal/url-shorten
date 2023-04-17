@@ -6,6 +6,9 @@ package com.thirumal.service;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +20,12 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.thirumal.exception.BadRequestException;
 import com.thirumal.exception.DatabaseException;
+import com.thirumal.model.Click;
 import com.thirumal.model.ShortenUrl;
+import com.thirumal.repository.ClickRepository;
 import com.thirumal.repository.ShortenUrlRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Thirumal
@@ -34,6 +41,10 @@ public class UrlShortnerService {
 	
 	@Autowired
 	private ShortenUrlRepository shortenUrlRepository;
+	@Autowired
+	private ClickRepository clickRepository;
+	@Autowired
+	private HttpServletRequest request;
 	
 	/**
 	 * Convert long URL to short URL and store the information in the database
@@ -74,10 +85,24 @@ public class UrlShortnerService {
 		ShortenUrl shortenUrl = shortenUrlRepository.findById(Long.valueOf(primaryKey)).block();
 		RedirectView redirectView = new RedirectView();
 		if (shortenUrl == null) {
+			logger.debug("Link is not found for the id {}", shortPath);
 			redirectView.setUrl(defaultRedirectUrl);
 		} else {
 			redirectView.setUrl(shortenUrl.getOriginalUrl());
+			/// Extracting client details
+			Map<String, Object> clientDetails = new HashMap<>();
+			var headers = request.getHeaderNames();
+			while (headers.hasMoreElements()) {
+				Object element = headers.nextElement();
+				if (!Set.of("accept", "user-agent").contains(element.toString())) {
+					clientDetails.put(element.toString(), request.getHeader(element.toString()));
+				}
+			}
+			clickRepository.save(Click.builder().shortenUrlId(shortenUrl.getShortenUrlId())
+					.clientDetails(clientDetails).build()).block();
+			logger.debug("Actual link is clicked !!!!");
 		}
+		
 		return redirectView;
 	}
 	

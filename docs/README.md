@@ -17,7 +17,7 @@ Shorten the long URL for SMS.
 * JRE 17 or above
 * Host the application where the short URL domain is directs (OR) `Nginx` for reverse proxy
 
-![Data Model](./docs/url_shorten.png)
+![Data Model](docs/url_shorten.png)
 
 ## Generate the short URL Flow
 
