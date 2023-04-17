@@ -65,6 +65,7 @@ USING btree
 CREATE TABLE public.click (
 	click_id bigserial NOT NULL,
 	shorten_url_id bigint NOT NULL,
+	client_details json,
 	row_created_on timestamptz NOT NULL DEFAULT current_timestamp,
 	CONSTRAINT click_pk PRIMARY KEY (click_id)
 );
