@@ -7,7 +7,7 @@ Shorten the long URL for SMS.
 ## Features
 
 * Create Short URL for SMS
-* Track how many number of times the link is clicked & when the link was accessed
+* Track how many number of times the link is clicked & when the link was clicked. This feature indirectly tells us the SMS is delivered and user is opened the SMS
 * Client Click Track includes
   * IP Address
   * Browser details
