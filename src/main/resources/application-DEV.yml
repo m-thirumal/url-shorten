@@ -3,8 +3,8 @@ server:
 spring:  
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/shorten_url 
-    username: thirumal
-    password: Thirumal
+    username: postgres
+    password: thirumal
     pool:
       enabled: true
       initial-size: 1
