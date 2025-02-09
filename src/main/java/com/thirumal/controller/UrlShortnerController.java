@@ -36,8 +36,12 @@ public class UrlShortnerController {
 	
 	Logger logger = LoggerFactory.getLogger(UrlShortnerController.class);
 	
-	@Autowired
 	private UrlShortnerService urlShortnerService;
+
+	@Autowired
+	public void setUrlShortnerService(UrlShortnerService urlShortnerService) {
+		this.urlShortnerService = urlShortnerService;
+	}
 
 	@PostMapping(value = "/", consumes = {MediaType.APPLICATION_JSON_VALUE })
 	@ResponseStatus(value = HttpStatus.CREATED)
