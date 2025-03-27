@@ -73,3 +73,9 @@ Output:
 ---Redirect to PAGE
 ```
 
+
+## Graceful Shutdown
+
+```curl
+curl -X POST http://localhost:9054/actuator/shutdown
+```
